@@ -5,8 +5,7 @@ function App() {
   const { width, height } = useWindowSize();
   const canvasRef = useRef(null);
   const CELLSIZE = 50;
-  const leftRightMargin = ((width % CELLSIZE) + CELLSIZE)/2;
-	const topBottomMargin = ((height % CELLSIZE) + CELLSIZE)/2;
+  
 
   const drawLine = (ctx, startX, startY, endX, endY) => {
     // Draw a line
@@ -19,6 +18,9 @@ function App() {
   }
 
   useEffect(() => {
+    const leftRightMargin = ((width % CELLSIZE) + CELLSIZE)/2;
+	  const topBottomMargin = ((height % CELLSIZE) + CELLSIZE)/2;
+    
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
     ctx.fillStyle ='#282c34';
@@ -49,7 +51,7 @@ function App() {
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, []);
+  }, [width, height]);
 
 
   return(
@@ -58,8 +60,6 @@ function App() {
         width={width} 
         height={height}
       />
-      
-
   );
 }
 export default App;
