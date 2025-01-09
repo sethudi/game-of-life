@@ -26,23 +26,19 @@ function App() {
     const row= Math.floor((event.clientY-topBottomMargin) / CELLSIZE);
 
     world.setCell(row, col, true);
-    fillCell((col*CELLSIZE)+ leftRightMargin, (row*CELLSIZE) + topBottomMargin);
-    console.log(world.getCell(row, col));
-  }
 
-  const fillCell = (startX, startY) => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
     ctx.fillStyle = 'green';
-    ctx.fillRect(startX, startY, CELLSIZE, CELLSIZE);
-    
+    ctx.fillRect((col*CELLSIZE)+ leftRightMargin, (row*CELLSIZE) + topBottomMargin, CELLSIZE, CELLSIZE);
+
+    console.log(world.getCell(row, col));
   }
 
   const handleResize = () => {
     console.log('Hello');
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     world = new World(Math.floor(width / CELLSIZE), Math.floor(height / CELLSIZE));
     for(let x = leftRightMargin; x <= width - leftRightMargin; x += CELLSIZE) {
