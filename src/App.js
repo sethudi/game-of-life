@@ -7,6 +7,8 @@ function App() {
   const CELLSIZE = 50;
   let world = new World(Math.floor(width / CELLSIZE), Math.floor(height / CELLSIZE));
   const canvasRef = useRef(null);
+  let canvas = null;
+  let ctx = null;
   const leftRightMargin = ((width % CELLSIZE) + CELLSIZE)/2;
 	const topBottomMargin = ((height % CELLSIZE) + CELLSIZE)/2;
   
@@ -37,8 +39,8 @@ function App() {
 
   const handleResize = () => {
     console.log('Hello');
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
+    // const canvas = canvasRef.current;
+    // const ctx = canvas.getContext('2d');
 
     world = new World(Math.floor(width / CELLSIZE), Math.floor(height / CELLSIZE));
     for(let x = leftRightMargin; x <= width - leftRightMargin; x += CELLSIZE) {
@@ -50,6 +52,8 @@ function App() {
   };
 
   useEffect(() => {
+    canvas = canvasRef.current;
+    ctx = canvas.getContext('2d');
     window.addEventListener('resize', handleResize);
 
     // Draw a line on app mount
@@ -61,6 +65,46 @@ function App() {
     };
   }, [width, height]);
 
+  useEffect(() => {
+    canvas.tabIndex = 0;
+    canvas.focus();
+
+    // Handle keydown events
+    const handleKeyDown = (event) => {
+      switch (event.code) {
+        case 'Space':
+            console.log('Space');
+            break;
+        case 'Enter':
+            console.log('Enter');
+            world.randomize();
+            updateGrid();
+            break;
+        case 'Backspace':
+            console.log('Backspace');
+            break;
+      }
+    }
+    canvas.addEventListener('keydown', handleKeyDown);
+
+    // Cleanup event listener on unmount
+    return () => canvas.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
+  
+  const updateGrid = () => {
+    console.log('updateGrid');
+    for (let i = 0; i <world.rows; i++) {
+      for (let j = 0; j < world.columns; j++) {
+        const cell = world.getCell(i, j);
+        if (cell) {
+          ctx.fillStyle ='green';
+          ctx.fillRect((j*CELLSIZE) + leftRightMargin, (i*CELLSIZE) + topBottomMargin, CELLSIZE, CELLSIZE);
+        }
+        
+      }
+    }
+  }
 
   return(
       <canvas 
@@ -68,6 +112,7 @@ function App() {
         width={width} 
         height={height}
         onClick={handleClick}
+        // onKeyDown={handleKeyDown}
       />
   );
 }
