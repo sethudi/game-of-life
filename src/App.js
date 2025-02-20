@@ -26,13 +26,19 @@ function App() {
   const handleClick = (event) => {
     const col = Math.floor((event.clientX-leftRightMargin)/ CELLSIZE);
     const row= Math.floor((event.clientY-topBottomMargin) / CELLSIZE);
-
-    world.setCell(row, col, true);
-
+    
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
-    ctx.fillStyle = 'green';
-    ctx.fillRect((col*CELLSIZE)+ leftRightMargin, (row*CELLSIZE) + topBottomMargin, CELLSIZE, CELLSIZE);
+
+    let cellbool = world.getCell(row, col);
+    if (cellbool) {
+      ctx.fillStyle = 'white';
+      world.setCell(row, col, false);
+    } else {
+      ctx.fillStyle = 'green';
+      world.setCell(row, col, true);
+    }
+    ctx.fillRect((col*CELLSIZE)+ leftRightMargin +1, (row*CELLSIZE) + topBottomMargin +1, CELLSIZE -2, CELLSIZE -2);
 
     console.log(world.getCell(row, col));
   }
@@ -73,15 +79,16 @@ function App() {
     const handleKeyDown = (event) => {
       switch (event.code) {
         case 'Space':
-            console.log('Space');
+            world.clearGrid();
+            updateGrid();
             break;
         case 'Enter':
-            console.log('Enter');
             world.randomize();
             updateGrid();
             break;
         case 'Backspace':
-            console.log('Backspace');
+            world.next();
+            updateGrid();
             break;
       }
     }
@@ -92,6 +99,7 @@ function App() {
   }, []);
 
   
+
   const updateGrid = () => {
     console.log('updateGrid');
     for (let i = 0; i <world.rows; i++) {
@@ -99,7 +107,10 @@ function App() {
         const cell = world.getCell(i, j);
         if (cell) {
           ctx.fillStyle ='green';
-          ctx.fillRect((j*CELLSIZE) + leftRightMargin, (i*CELLSIZE) + topBottomMargin, CELLSIZE, CELLSIZE);
+          ctx.fillRect((j*CELLSIZE) + leftRightMargin +1, (i*CELLSIZE) + topBottomMargin +1, CELLSIZE -2, CELLSIZE -2);
+        } else {
+          ctx.fillStyle ='white';
+          ctx.fillRect((j*CELLSIZE) + leftRightMargin +1, (i*CELLSIZE) + topBottomMargin +1, CELLSIZE -2, CELLSIZE -2);
         }
         
       }
