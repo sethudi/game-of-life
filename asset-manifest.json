@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/sethudi/game-of-life.git/static/css/main.e6c13ad2.css",
+    "main.js": "/sethudi/game-of-life.git/static/js/main.6e9fc3cd.js",
+    "static/js/488.602fa109.chunk.js": "/sethudi/game-of-life.git/static/js/488.602fa109.chunk.js",
+    "index.html": "/sethudi/game-of-life.git/index.html",
+    "main.e6c13ad2.css.map": "/sethudi/game-of-life.git/static/css/main.e6c13ad2.css.map",
+    "main.6e9fc3cd.js.map": "/sethudi/game-of-life.git/static/js/main.6e9fc3cd.js.map",
+    "488.602fa109.chunk.js.map": "/sethudi/game-of-life.git/static/js/488.602fa109.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e6c13ad2.css",
+    "static/js/main.6e9fc3cd.js"
+  ]
+}
